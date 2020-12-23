@@ -62,14 +62,19 @@ public class NIOServer {
             }
             ByteBuffer bufferToWrite = ByteBuffer.wrap("HelloClient".getBytes());
             sc.write(bufferToWrite);
+//            key.interestOps(SelectionKey.OP_READ);
             key.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
         } else if (key.isWritable()) {
+            //Channel时对写事件感兴趣(只要buffer缓存未满该值就是true)
             SocketChannel sc = (SocketChannel) key.channel();
             System.out.println("write事件");
             // NIO事件触发是水平触发
             // 使用Java的NIO编程的时候，在没有数据可以往外写的时候要取消写事件，
             // 在有数据往外写的时候再注册写事件
-            key.interestOps(SelectionKey.OP_READ);
+//            ByteBuffer bufferToWrite = ByteBuffer.wrap("HelloClient-writer".getBytes());
+//            sc.write(bufferToWrite);
+//            key.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+//            key.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
             //sc.close();
         }
     }
